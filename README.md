@@ -1,5 +1,5 @@
 # SingleInstance
-.net 3及以上可以的单个wpf应用实例
+.net core可用的单个wpf应用实例
 
 
 原官方给出的单个实例是基于framework的,实现如下
