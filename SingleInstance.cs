@@ -80,7 +80,6 @@ namespace SingleInstanceTest
         /// <returns>True if this is the first instance of the application.</returns>
         public static bool InitializeAsFirstInstance(string uniqueName)
         {
-            commandLineArgs = GetCommandLineArgs(uniqueName);
 
             // Build unique application Id and the IPC channel name.
             string applicationIdentifier = uniqueName + Environment.UserName;
@@ -96,6 +95,7 @@ namespace SingleInstanceTest
             }
             else
             {
+                commandLineArgs = GetCommandLineArgs();
                 SignalFirstInstance(channelName, commandLineArgs);
             }
 
@@ -131,14 +131,14 @@ namespace SingleInstanceTest
         /// Gets command line args - for ClickOnce deployed applications, command line args may not be passed directly, they have to be retrieved.
         /// </summary>
         /// <returns>List of command line arg strings.</returns>
-        private static IList<string> GetCommandLineArgs(string uniqueApplicationName)
+        private static IList<string> GetCommandLineArgs()
         {
-            string[] args = null;
-            if (System.AppDomain.CurrentDomain == null)
-            {
-                // The application was not clickonce deployed, get args from standard API's
-                args = Environment.GetCommandLineArgs();
-            }
+            string[] args = Environment.GetCommandLineArgs();
+//             if (System.AppDomain.CurrentDomain == null)
+//             {
+//                 // The application was not clickonce deployed, get args from standard API's
+//                 args = Environment.GetCommandLineArgs();
+//             }
 
             if (args == null)
             {
@@ -202,7 +202,13 @@ namespace SingleInstanceTest
             var ss = new StreamString(pipeClient);
 
             // 需求只需要传递第一个参数即可
-            ss.WriteString(args[0]);
+            string arg = string.Empty;
+            if (args.Count > 2)
+            {
+                arg = args[1];
+            }
+
+            ss.WriteString(arg);
 
             pipeClient.Close();
         }
