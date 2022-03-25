@@ -28,5 +28,5 @@ public bool SignalExternalCommandLineArgs(string arg)
   }));
   // Handle command line arguments of second instance
   return true;
-  }
+}
 ~~~
