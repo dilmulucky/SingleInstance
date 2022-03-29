@@ -202,13 +202,7 @@ namespace SingleInstanceTest
             var ss = new StreamString(pipeClient);
 
             // 需求只需要传递第一个参数即可
-            string arg = string.Empty;
-            if (args.Count > 2)
-            {
-                arg = args[1];
-            }
-
-            ss.WriteString(arg);
+            ss.WriteString(args.LastOrDefault());
 
             pipeClient.Close();
         }
